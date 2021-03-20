@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Laboratório de Algoritmia I" />
+  <meta name="author" content="Laboratórios de Informática II" />
+  <meta name="author" content="Ano letivo 2020/21" />
+  <title>Enunciado do Projeto</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="estilo.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Enunciado do Projeto</h1>
+<p class="author">Laboratório de Algoritmia I</p>
+<p class="author">Laboratórios de Informática II</p>
+<p class="author">Ano letivo 2020/21</p>
+</header>
+<h1 id="objetivo">Objetivo</h1>
+<p>Pretende-se que implemente um interpretador de uma linguagem de programação orientada à stack, chamado $0M. O seu programa deverá permitir ler comandos do <em>stdin</em> ou de um ficheiro, interpretá-los, e imprimir o conteúdo da stack no <em>stdout</em>.</p>
+<h1 id="expressões-matemáticas">Expressões matemáticas</h1>
+<pre><code>+ - * /         Somar, subtrair, multiplicar e dividir
+( )             Decrementar e incrementar um valor
+%               Módulo
+#               Exponenciação
+&amp; | ^ ~         E, ou, xor e not (bitwise) para inteiros</code></pre>
+<h1 id="stack">Stack</h1>
+<pre><code>_           Duplicar
+;           Pop
+\           Trocar os dois elementos do topo da stack
+@           Rodar os 3 elementos no topo da stack
+n $         Copia n-ésimo elemento para o topo da stack
+            0 é o topo da stack</code></pre>
+<h1 id="lógica">Lógica</h1>
+<pre><code>0 ou vazio          False
+contrário de 0      Verdadeiro
+=                   Igual
+&lt;                   Menor
+&gt;                   Maior
+!                   Não
+e&amp;                  E  (com shortcut)
+e|                  Ou (com shortcut)
+e&lt;                  Coloca o menor dos 2 valores na stack
+e&gt;                  Coloca o maior dos 2 valores na stack
+?                   If-Then-Else</code></pre>
+<h1 id="variáveis">Variáveis</h1>
+<pre><code>A até Z     Coloca no topo da stack o conteúdo da variável
+:&lt;Letra&gt;    Copia topo da stack à variável
+A       Valor por omissão: 10
+B       Valor por omissão: 11
+C       Valor por omissão: 12
+D       Valor por omissão: 13
+E       Valor por omissão: 14
+F       Valor por omissão: 15
+N       Valor por omissão: &#39;\n&#39;
+S       Valor por omissão: &#39; &#39;
+X       Valor por omissão: 0
+Y       Valor por omissão: 1
+Z       Valor por omissão: 2</code></pre>
+<h1 id="inputoutput">Input/Output</h1>
+<pre><code>l       Ler linha
+t       Ler todas as linhas
+p       Imprimir topo da stack</code></pre>
+<h1 id="conversões">Conversões</h1>
+<pre><code>i       Converter o topo da stack num inteiro
+f       Converter o topo da stack num double
+c       Converter o topo da stack para caratere
+s       Converter o topo da stack para string</code></pre>
+<h1 id="arrays-e-strings">Arrays e strings</h1>
+<pre><code>&quot;&quot;      Criar uma string
+[]      Criar um array
+~       Colocar na stack todos os elementos do array
++       Concatenar strings ou arrays
+        (ou array/string com elemento)
+*       Concatenar várias vezes strings ou arrays
+,       Tamanho ou range
+=       Ir buscar um valor por índice
+&lt; &gt;     Ir buscar X elems/carat do início ou fim
+( )     Remover 1º ou últ. elt. e colocar na stack
+        após o array/string
+#       Procurar substring na string e devolver o índice
+        Ou -1 se não encontrar
+t       Ler todo o input =&gt; String
+/       Separar string por substring =&gt; Array
+S/      Separar uma string por whitespace =&gt; Array
+N/      Separar uma string por newlines =&gt; Array</code></pre>
+<h1 id="blocos">Blocos</h1>
+<pre><code>{}      Criar um bloco
+~       Executar bloco
+%       Aplicar o bloco a um array/string
+*       Fold sobre um array usando o bloco
+,       Filtrar um array/string utilizando um bloco
+$       Ordenar usando o bloco
+w       Executa o bloco enquanto ele deixar um truthy
+        no topo da stack; Remove da stack a condição</code></pre>
+<h1 id="exemplos">Exemplos</h1>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1 2 3 ?</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0 2 3 ?</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5 ,</td>
+<td style="text-align: left;">01234</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5 , ~ \</td>
+<td style="text-align: left;">01243</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ 1 2 3 ] 2 * [ 4 5 ] \ +</td>
+<td style="text-align: left;">45123123</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[ l l l ] { i 3 * } %<br />
+1<br />
+2<br />
+3</td>
+<td style="text-align: left;">369</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ 3 1 9 ] ) 7 * + 3 *</td>
+<td style="text-align: left;">316331633163</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t N/ ~ #<br />
+planetas<br />
+neta</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“planetas” 3 &gt;</td>
+<td style="text-align: left;">tas</td>
+</tr>
+</tbody>
+</table>
+<h1 id="guião-1">Guião 1</h1>
+<ul>
+<li>Pretende-se que implemente a parte das expressões matemáticas</li>
+<li>O seu programa deve:
+<ol type="1">
+<li>ler uma linha;</li>
+<li>correr o código correspondente</li>
+<li>imprimir o conteúdo da stack no fim da execução</li>
+</ol></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5 4 -</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5 3 ) #</td>
+<td style="text-align: left;">625</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2 4 5 * +</td>
+<td style="text-align: left;">22</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1 ) ) 7 ( ( ( #</td>
+<td style="text-align: left;">81</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5 2 %</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2 5 ^</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2 5 &amp;</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12 7 2 &amp; |</td>
+<td style="text-align: left;">14</td>
+</tr>
+</tbody>
+</table>
+<h1 id="guião-2">Guião 2</h1>
+<ul>
+<li>Pretende-se que implemente a parte correspondente à:
+<ul>
+<li>manipulação da stack,</li>
+<li>conversão de tipos e</li>
+<li>Leitura: comando l</li>
+</ul></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1 2 3 @</td>
+<td style="text-align: left;">231</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1 2 3 _ @ ;</td>
+<td style="text-align: left;">133</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7 2 3 2 $</td>
+<td style="text-align: left;">7237</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1 2 3 4 5 \ ; @</td>
+<td style="text-align: left;">1352</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2 3 4 @ ; _ # \ _ # +</td>
+<td style="text-align: left;">283</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">79 c 108 c 97 c</td>
+<td style="text-align: left;">Ola</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">79 108 97 c @ c @ c @</td>
+<td style="text-align: left;">Ola</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">l i l i #<br />
+2<br />
+4</td>
+<td style="text-align: left;">16</td>
+</tr>
+</tbody>
+</table>
+<h1 id="guião-3">Guião 3</h1>
+<ul>
+<li>Pretende-se que implemente um debugger</li>
+<li>A parte correspondente às:
+<ul>
+<li>variáveis</li>
+<li>lógica e condições</li>
+</ul></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">7 2 3 ?</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5 2 = 2 3 ?</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1 3 e&amp;</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0 3 e&amp;</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1 2 e|</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0 2 e|</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3 2 1 + =</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3 5 = ! 7 2 &gt;</td>
+<td style="text-align: left;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1 2 &lt; 2 1 &gt;</td>
+<td style="text-align: left;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3 5 2 e&lt; e&lt;</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A B * :T T</td>
+<td style="text-align: left;">110110</td>
+</tr>
+</tbody>
+</table>
+<h1 id="guião-4">Guião 4</h1>
+<ul>
+<li>Pretende-se que implemente a parte correspondente aos arrays</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: center;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5 ,</td>
+<td style="text-align: center;">01234</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[ 7 2 3 ] ,</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“abc” 3 * _ S \ ,</td>
+<td style="text-align: center;">abcabcabc 9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1 [ 2 3 ] + 3 *</td>
+<td style="text-align: center;">123123123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ 3 5 7 1 2 ] 2 =</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[ 1 2 3 ] [ 4 5 ] \ +</td>
+<td style="text-align: center;">45123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ 7 2 9 ] (</td>
+<td style="text-align: center;">297</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5 , 3 &gt;</td>
+<td style="text-align: center;">234</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ 1 2 3 ] ( + [ 7 5 ] +</td>
+<td style="text-align: center;">23175</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[1 2 3] ~ * +</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“olaqqabcqqxyz” “qq” / ,</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t S/ ,<br />
+tres tristes tigres<br />
+barao vermelho</td>
+<td style="text-align: center;">5</td>
+</tr>
+</tbody>
+</table>
+<h1 id="guião-5">Guião 5</h1>
+<ul>
+<li>Pretende-se que implemente a parte correspondente aos blocos</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2 { 3 * }</td>
+<td style="text-align: left;">2{ 3 * }</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2 { 3 * } ~</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ 1 2 3 ] { 2 # } %</td>
+<td style="text-align: left;">149</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">l { ( ( } %<br />
+qnc</td>
+<td style="text-align: left;">ola</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5 , { ) } %</td>
+<td style="text-align: left;">12345</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5 , { 2 % } ,</td>
+<td style="text-align: left;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10 , { 3 % ! } ,</td>
+<td style="text-align: left;">0369</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10 , { ) } % { * } *</td>
+<td style="text-align: left;">3628800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">t S/ { i } % { e&gt; } *<br />
+2 7 13 4</td>
+<td style="text-align: left;">13</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
