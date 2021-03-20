@@ -1,12 +1,3 @@
----
-title: Enunciado do Projeto
-author:
-        - Laboratório de Algoritmia I
-        - Laboratórios de Informática II
-        - Ano letivo 2020/21
-css: estilo.css
----
-
 # Objetivo
 
 Pretende-se que implemente um interpretador de uma linguagem de programação orientada à stack, chamado $0M. 
